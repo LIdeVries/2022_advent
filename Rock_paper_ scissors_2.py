@@ -2503,17 +2503,25 @@ B X"""
 # Creating Data Fram
 df = pd.DataFrame([x.split(" ") for x in input.split("\n")])
 
-# Creating Symetry
-df[1] = df[1].replace(["X"], "A")
-df[1] = df[1].replace(["Y"], "B")
-df[1] = df[1].replace(["Z"], "C")
+heirarchy = ["A", "B", "C"]
 
-# Calculating win ratio
+
+# Calculating score
+for index, row in df.iterrows():
+    print(row[0], row[1])
+    if row[1] == "X":
+        row[1] = heirarchy[(heirarchy.index(row[0]) - 1) % 3]
+        print(row[1])
+    if row[1] == "Y":
+        row[1] = heirarchy[(heirarchy.index(row[0])) % 3]
+        print(row[1])
+    if row[1] == "Z":
+        row[1] = heirarchy[(heirarchy.index(row[0]) + 1) % 3]
+        print(row[1])
+
+# Calculaing win
 df["win"] = 0
-
 df.loc[df[0] == df[1], "win"] = 3
-
-
 for index, row in df.iterrows():
     if row[0] == "A":
         if row[1] == "B":
@@ -2539,9 +2547,9 @@ df["total"] = df["win"] + df["item score"]
 print(df)
 print(df["total"].sum())
 """ 
-A - Rock - X - 1
-B - Paper - Y - 2
-C - scissors - Z - 3
+X - Lose
+Y - Draw
+Z - Win
 
 0 - Loss
 3 - Draw
