@@ -2250,5 +2250,9 @@ df = pd.DataFrame([x.split("\n") for x in input.split("\n\n")]).astype("float")
 # df = df.fillna(value=0)
 df["sum"] = df.sum(axis=1, numeric_only=True)
 df = df["sum"]
-
-print(df.max())
+df = df.sort_values(ascending=False)
+df.index
+print("top = ", df.max())
+print("top 3 = \n", df.head(3))
+print("Sum 3 = \n", df.head(3).sum())
+print(sum([51396.0, 58285.0, 52857.0]))
