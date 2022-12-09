@@ -1003,7 +1003,7 @@ input = """15-60,14-59
 
 # Load Data
 
-# df = pd.read_csv("fileinput.txt", header=None)
+
 df = pd.DataFrame([x.split(",") for x in input.split("\n")]).astype("string")
 df.rename(columns={0: "S1", 1: "S2"}, inplace=True)
 
@@ -1013,48 +1013,16 @@ count = 0
 # iterating through rows
 for index, row in df.iterrows():
     S1l = int((row["S1"].split("-"))[0])
-    print("S1l", S1l)
     S1h = int((row["S1"].split("-"))[1])
-    print("S1h", S1h)
     S2l = int((row["S2"].split("-"))[0])
-    print("S2l", S2l)
     S2h = int((row["S2"].split("-"))[1])
-    print("S2h", S2h)
 
-    print(S1l <= S2l)
-    print(S1h >= S2h)
+    S1_r = range(int(S1l), int(S1h) + 1)
+    S2_r = range(int(S2l), int(S2h) + 1)
 
-    if S1l <= S2l and S1h >= S2h:
-        print("S1 contains S2", index, "\n", row)
-        count += 1
-
-    elif S2l <= S1l and S2h >= S1h:
-        print("S2 contains S1", index, "\n", row)
-        count += 1
-
-
+    for item in S1_r:
+        if item in S2_r:
+            count += 1
+            break
 print("Count ->", count)
-print(df)
-
-# total = 0
-
-# with open("fileinput.txt") as file:
-#     for line in file:
-#         contents = line.split(",")
-#         elf1 = contents[0]
-#         elf2 = contents[1]
-#         elf1_start, elf1_stop = elf1.split("-")[0], elf1.split("-")[1]
-#         elf2_start, elf2_stop = elf2.split("-")[0], elf2.split("-")[1]
-#         elf1_range = range(int(elf1_start), int(elf1_stop) + 1)
-#         elf2_range = range(int(elf2_start), int(elf2_stop) + 1)
-
-#         counter = 0
-
-#         for item in range(int(elf1_start), int(elf1_stop) + 1):
-#             if item in range(int(elf2_start), int(elf2_stop) + 1):
-#                 counter += 1
-#             if counter == len(elf1_range) or counter == len(elf2_range):
-#                 total += 1
-#                 break
-
-# print(total)
+# print(df)

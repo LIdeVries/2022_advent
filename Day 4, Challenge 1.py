@@ -1017,9 +1017,6 @@ for index, row in df.iterrows():
     S2l = int((row["S2"].split("-"))[0])
     S2h = int((row["S2"].split("-"))[1])
 
-    print(S1l <= S2l)
-    print(S1h >= S2h)
-
     if S1l <= S2l and S1h >= S2h:
         print("S1 contains S2", index, "\n", row)
         count += 1
