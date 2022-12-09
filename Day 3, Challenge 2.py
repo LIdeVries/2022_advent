@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 input = """dWlhclDHdFvDCCDfFq
 mGdZBZBwRGjZMFgvTvgtvv
 jwwJrzdzGdSbGGnNlzWczHzPHPhn
@@ -304,17 +303,25 @@ rsgHQbJbrsGHHlgQHgJrlHrPZdhdpMZGDSDpdPLcZhdvhZ"""
 
 # Load Data
 df = pd.DataFrame([x for x in input.split("\n")]).astype("string")
-# split Data
-df["first"] = ""
-df["second"] = ""
+# Group elves
+
 saved = []
+df.rename(columns={0: "rucksack"}, inplace=True)
+df["group"] = 0
 for index, row in df.iterrows():
-    df["first"][index] = row[0][0 : int(len(row[0]) / 2)]
-    df["second"][index] = row[0][int(len(row[0]) / 2) :]
-for index, row in df.iterrows():
-    for item in row["first"]:
-        if item in row["second"]:
-            saved.append(item)
+    df["group"][index] = index // 3
+
+print(df)
+elves = []
+for item in range(df["group"].max() + 1):
+    group = df.loc[df["group"] == item]
+    working_list = []
+    for item in group["rucksack"]:
+        working_list.append(item)
+    for char in working_list[0]:
+        if (char in working_list[1]) & (char in working_list[2]):
+            saved.append(char)
+            print(group, "->", char)
             break
 print(saved)
 for item in range(len(saved)):
@@ -324,10 +331,3 @@ for item in range(len(saved)):
         saved[item] = ord(saved[item]) - 96
 print(saved)
 print(sum(saved))
-
-"""
-each rucksack split in half
-Lowercase item types a through z have priorities 1 through 26.
-Uppercase item types A through Z have priorities 27 through 52.
-Find the item type that appears in both compartments of each rucksack. What is the sum of the priorities of those item types?
-"""
