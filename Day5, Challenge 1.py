@@ -1,7 +1,6 @@
 import pandas as pd
 
 """figure out how to change the list inplace"""
-"Now I have to change github stuff, so frustrating!"
 
 # Creating list of Stacks
 # This is the stacks original, cleaning and sorting.
