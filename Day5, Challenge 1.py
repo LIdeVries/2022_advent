@@ -17,16 +17,16 @@ for line in stacks:
 stacks = []
 restacked = zip(*saved)
 restacked = list(restacked)
+
 for number in range(len(restacked)):
     restacked[number] = list(restacked[number])
     restacked[number].reverse()
     restacked[number] = [x for x in restacked[number] if x != ""]
-print(restacked)
 
 
 # Creating DataFrame commands.
 # This captures the origin of the boxes, the destination, and the count of boxes to be moved
-commands = pd.read_csv("Day5.txt", skiprows=9)
+commands = pd.read_csv("Day5.txt", skiprows=8)
 
 # Cleaning Commands DF
 commands.columns = ["command"]
@@ -34,10 +34,16 @@ commands = commands.pop("command").str.extractall("(\d+)")[0].unstack().astype(i
 commands.columns = ["count", "origin", "destination"]
 
 print(commands)
-
+for item in restacked:
+    print(item)
+print("then")
 for index, row in commands.iterrows():
-    print(row)
     for iterations in range(row["count"]):
-        print(restacked[row["origin"] - 1][-1])
-        # restacked[row["destination"] - 1].append(restacked[row["origin"] - 1][-1])
-        restacked[row["origin"] - 1].pop()
+        moving = restacked[row["origin"] - 1].pop()
+        restacked[row["destination"] - 1].append(moving)
+
+
+output = ""
+for item in restacked:
+    output += item[-1][1]
+print(output)
