@@ -33,14 +33,12 @@ commands.columns = ["command"]
 commands = commands.pop("command").str.extractall("(\d+)")[0].unstack().astype(int)
 commands.columns = ["count", "origin", "destination"]
 
-print(commands)
 
-# Pops the origin list and appends the destination list the ammount of iterations dictated
+# Slices the end off of the origin list and extends the destination list.
 for index, row in commands.iterrows():
-    for iterations in range(row["count"]):
-        moving = restacked[row["origin"] - 1].pop()
-        restacked[row["destination"] - 1].append(moving)
-
+    moving = restacked[row["origin"] - 1][(-1 * row["count"]) :]
+    del restacked[row["origin"] - 1][(-1 * row["count"]) :]
+    restacked[row["destination"] - 1].extend(moving)
 
 output = ""
 for item in restacked:
